@@ -27,9 +27,9 @@ app = FastAPI(
     description="Twilio OpenAI WhatsApp Bot",
     version="0.0.1",
     contact={
-        "name": "Lena Shakurova",
-        "url": "http://shakurova.io/",
-        "email": "lena@shakurova.io",
+        "name": "Francis Baraka",
+        "url": "http://geniusapps.com/",
+        "email": "geniusapps@gmail.com",
     }
 )
 
