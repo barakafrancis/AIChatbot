@@ -1,14 +1,22 @@
 # Twilio-OpenAI-WhatsApp-Bot/app/openai_utils.py
 
-import os 
+import os
 from dotenv import load_dotenv
 from litellm import completion
 from app.prompts import SUMMARY_PROMPT
 
+# Load .env file (for local development)
 load_dotenv()
 
+# Read OpenAI API Key from environment variables
 OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
-os.environ["OPENAI_API_KEY"] = OPENAI_API_KEY
+
+# Validate it's set, raise a clear error if not
+if not OPENAI_API_KEY:
+    raise ValueError("OPENAI_API_KEY environment variable is not set")
+
+# (No need to set os.environ again here — it's already in the environment)
+
 
 # IF YOU WANT TO ADD MORE MODELS
 # GROQ_API_KEY = os.getenv("GROQ_API_KEY")
