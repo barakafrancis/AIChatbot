@@ -22,4 +22,5 @@ COPY . .
 EXPOSE 3002
 
 # Run the app with Gunicorn using Uvicorn workers
-CMD gunicorn app.main:app --log-level info --workers 6 --worker-class "uvicorn.workers.UvicornWorker" --bind 0.0.0.0:3002 --timeout 240
+CMD gunicorn app.main:app --log-level info --workers 6 --worker-class "uvicorn.workers.UvicornWorker" --bind 0.0.0.0:${PORT:-3002} --timeout 240
+
