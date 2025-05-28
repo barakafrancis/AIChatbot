@@ -7,11 +7,9 @@ WORKDIR /app
 # Copy the requirements file
 COPY requirements.txt .
 
-# Install gcc
+# Install gcc and build essentials
 RUN apt-get update --allow-insecure-repositories \
-    && apt-get install -y gcc
-
-RUN apt-get update && apt-get install -y build-essential
+    && apt-get install -y gcc build-essential
 
 # Install the Python dependencies
 RUN pip install --upgrade pip \
@@ -23,8 +21,5 @@ COPY . .
 # Expose the port that the Flask application will run on
 EXPOSE 3002
 
-# Add a volume to the container
-# VOLUME /app/logs
-
-# Run the RQ worker in the background
+# Run the app with Gunicorn using Uvicorn workers
 CMD gunicorn app.main:app --log-level info --workers 6 --worker-class "uvicorn.workers.UvicornWorker" --bind 0.0.0.0:3002 --timeout 240
