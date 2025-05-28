@@ -6,6 +6,14 @@ from dotenv import load_dotenv
 from fastapi import Form, FastAPI, Request
 from fastapi.middleware.cors import CORSMiddleware
 
+from fastapi.responses import Response
+
+# existing app = FastAPI() block...
+
+@app.get("/favicon.ico")
+async def favicon():
+    return Response(status_code=204)
+
 from twilio.rest import Client
 
 from app.cookies_utils import set_cookies, get_cookies, clear_cookies
