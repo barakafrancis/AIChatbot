@@ -24,7 +24,7 @@ COPY . .
 EXPOSE 3002
 
 # Add a volume to the container
-VOLUME /app/logs
+# VOLUME /app/logs
 
 # Run the RQ worker in the background
 CMD gunicorn app.main:app --log-level info --workers 6 --worker-class "uvicorn.workers.UvicornWorker" --bind 0.0.0.0:3002 --timeout 240
