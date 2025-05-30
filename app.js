@@ -2,6 +2,7 @@ const express = require('express');
 const twilio = require('twilio');
 const { OpenAI } = require('openai');
 require('dotenv').config();
+const axios = require('axios');
 
 const app = express();
 const PORT = process.env.PORT || 3002;
@@ -42,9 +43,15 @@ app.post('/app', async (req, res) => {
   }
 });
 
-// 👉 Health check route
-app.get('/health', (req, res) => {
-  res.status(200).send('OK');
+// 👉 Health check route (proxy to httpstat.us/200)
+app.get('/health', async (req, res) => {
+  try {
+    const response = await axios.get('https://httpstat.us/200');
+    res.status(response.status).send(response.data);
+  } catch (error) {
+    console.error('Health check failed:', error);
+    res.status(500).send('Health check failed');
+  }
 });
 
 // Start server
