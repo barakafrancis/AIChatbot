@@ -4,12 +4,7 @@ const { OpenAI } = require('openai');
 require('dotenv').config();
 
 const app = express();
-const PORT = process.env.PORT || 3002;
-
-// Health check endpoint
-app.get('/health', (req, res) => {
-  res.status(200).send('OK');
-});
+const PORT = process.env.PORT || 5000;
 
 // Middleware
 app.use(express.urlencoded({ extended: false }));
@@ -24,12 +19,10 @@ app.post('/app', async (req, res) => {
   console.log('Incoming webhook:', req.body);
 
   const twiml = new twilio.twiml.MessagingResponse();
-
   const incomingMsg = req.body.Body;
 
   if (incomingMsg) {
     try {
-      // Call OpenAI API to get a response
       const completion = await openai.chat.completions.create({
         messages: [{ role: 'user', content: incomingMsg }],
         model: 'gpt-3.5-turbo',
@@ -45,9 +38,13 @@ app.post('/app', async (req, res) => {
       res.type('text/xml').send(twiml.toString());
     }
   } else {
-    // No Body = status update webhook
     res.sendStatus(200);
   }
+});
+
+// 👉 Health check route
+app.get('/health', (req, res) => {
+  res.status(200).send('OK');
 });
 
 // Start server
